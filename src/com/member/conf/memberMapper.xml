@@ -13,12 +13,15 @@
 	petnum number NOT NULL, friend char(1), f_id varchar2(20) -->
 
 <mapper namespace="memberMapper">
+
+	<!-- MemberDao -->
 	<select id="view" resultType="com.member.vo.MemberVo">
 		select * from member
 	</select>
 
 	<select id="memberFind" resultType="com.member.vo.MemberVo">
-		select * from member where id = #{id}
+		select * from member where id
+		= #{id}
 
 	</select>
 
@@ -26,15 +29,15 @@
 
 
 	<insert id="memberInsert">
-	<!-- insert into member
-		(id,pw,n_id,tel,sido,gu,doro,d_juso,postno,email,u_sex,u_birthday,u_name,u_enrollday,status,manage,petcount,friend,f_id)
-		values
-		(#{id},#{pw},#{n_id},#{tel},#{sido},#{gu},#{doro},#{d_juso},#{postno},#{email},#{u_sex},#{u_birthday},#{u_name},#{u_enrollday},#{status},#{manage},#{petcount},#{friend},#{f_id}) -->
+		<!-- insert into member (id,pw,n_id,tel,sido,gu,doro,d_juso,postno,email,u_sex,u_birthday,u_name,u_enrollday,status,manage,petcount,friend,f_id) 
+			values (#{id},#{pw},#{n_id},#{tel},#{sido},#{gu},#{doro},#{d_juso},#{postno},#{email},#{u_sex},#{u_birthday},#{u_name},#{u_enrollday},#{status},#{manage},#{petcount},#{friend},#{f_id}) -->
 		insert into member
-		(id, pw, u_name, n_id, u_birthday, u_sex, doro, d_juso, postno, email, tel, petcount)
+		(id, pw, u_name, n_id, u_birthday, u_sex, doro,
+		d_juso, postno, email, tel, petcount)
 		values
-		(#{id}, #{pw}, #{u_name}, #{n_id}, #{u_birthday}, #{u_sex},
-		 #{doro}, #{d_juso}, #{postno}, #{email}, #{tel}, #{petcount})
+		(#{id}, #{pw}, #{u_name},
+		#{n_id}, #{u_birthday}, #{u_sex},
+		#{doro}, #{d_juso}, #{postno}, #{email}, #{tel}, #{petcount})
 	</insert>
 
 	<delete id="memberDelete">
@@ -42,30 +45,66 @@
 	</delete>
 
 	<update id="memberUpdate">
-	update member set 
-	pw = #{pw}, n_id = #{n_id}, tel = #{tel}, 
-	sido = #{sido}, gu= #{gu} , doro=#{doro}, 
-	d_juso = #{d_juso}, postno = #{postno}, 
-	email=#{email}, u_sex = #{u_sex}, u_birthday=#{u_birthday}, 
-	u_name=#{u_name}, u_enrollday = #{u_enrollday}, 
-	status=#{status}, manage= #{manage}, petcount=#{petcount}, 
-	friend=#{friend}, f_id=#{f_id} 
-	where id = #{id}
+		update member set
+		pw = #{pw}, n_id = #{n_id}, tel = #{tel},
+		sido = #{sido}, gu= #{gu} , doro=#{doro},
+		d_juso = #{d_juso}, postno = #{postno},
+		email=#{email}, u_sex = #{u_sex}, u_birthday=#{u_birthday},
+		u_name=#{u_name}, u_enrollday = #{u_enrollday},
+		status=#{status}, manage= #{manage}, petcount=#{petcount},
+		friend=#{friend}, f_id=#{f_id}
+		where id = #{id}
 	</update>
 
 	<select id="memberLog" resultType="com.member.vo.MemberVo">
-		select id,pw from member where id = #{id} and pw=#{pw}
+		select id,pw from member where
+		id = #{id} and pw=#{pw}
 	</select>
-	
+
 	<select id="memberPwcheck" resultType="com.member.vo.MemberVo">
-		select pw from member where id = #{id} and email = #{email}
+		select pw from member
+		where id = #{id} and email = #{email}
 	</select>
-	
+
 	<select id="memberIdcheck" resultType="com.member.vo.MemberVo">
-		select id from member where u_name = #{u_name} and email = #{email}
+		select id from member
+		where u_name = #{u_name} and email = #{email}
 	</select>
 	<insert id="">
+
+	</insert>
 	
+	<!-- PetDao -->
+	<!-- join해서 굳이 한번에 보여줘야하나? 각각 getAll써서 뿌려줘도 되지 않을까? 아래의 join문을 쓰려면 return 
+		type은 어떻게 되는거지?? 그냥 ResultSet인가? => dao에서 get method에서 list를 arraylist로 형변환 
+		후 리턴 > 세팅 후 ResultSet으로 리턴 -->
+	<!-- https://codereview.stackexchange.com/questions/161612/table-join-in-dao-and-delegating-resultset-reading -->
+
+
+	<select resultType="" id="MemberPetView">
+		select m.no, m.id, m.pw, m.n_id, m.tel,
+			m.sido, m.sigungu, m.roadname, m.d_juso, m.zonecode, m.email, m.u_sex,
+			m.u_birthday, m.u_enrollday, m.status, m.manage, m.petnum, m.friend,
+			m.f_id, p.p_name, p.p_sex, p.p_size, p.p_birthdate
+		from member m, pet p
+		where m.id=p.id(+) and m.id=#{id} 
+	</select>
+
+	<select resultType="com.pet.PetVo" id="PetView">
+		select * from pet 
+	</select>
+
+	<insert id="PetInsert">
+		insert into pet (id,p_name,p_sex,p_size,p_birthdate)
+				values (#{id},#{p_name},#{p_sex},#{p_size},#{p_birthdate}) 
 	</insert>
 
+	<delete id="PetDelete">
+		delete from pet where p_name=#{p_name}; 
+	</delete>
+
+	<update id="PetUpdate" parameterType="int">
+		update into pet set (p_sex=#{p_sex}, p_size=#{p_size}, p_birthdate 
+		where p_name = #{p_name} 
+	</update>
 </mapper>
