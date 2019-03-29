@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--no number(4), id varchar2(20) primary key, pw varchar2(20) NOT NULL, 
+	n_id varchar2(20) NOT NULL UNIQUE, tel varchar2(20) NOT NULL, sido varchar2(20) 
+	NOT NULL, gu varchar2(20) NOT NULL, doro varchar2(20) NOT NULL, d_juso varchar2(50), 
+	postnum varchar2(20) NOT NULL, email varchar2(20) NOT NULL UNIQUE, u_sex 
+	char(1) NOT NULL, u_birthday date NOT NULL, u_name varchar2(20) NOT NULL, 
+	u_enrollday date NOT NULL, status char(1) NOT NULL, manage char(1) NOT NULL, 
+	petnum number NOT NULL, friend char(1), f_id varchar2(20) -->
+
+<mapper namespace="memberMapper">
+	<select id="view" resultType="com.member.vo.MemberVo">
+		select * from member
+	</select>
+
+	<select id="memberFind" resultType="com.member.vo.MemberVo">
+		select * from member where id = #{id}
+
+	</select>
+
+	<!-- <select id="MemberLog" > select * from member where id=#{id} </select> -->
+
+
+	<insert id="memberInsert">
+	<!-- insert into member
+		(id,pw,n_id,tel,sido,gu,doro,d_juso,postno,email,u_sex,u_birthday,u_name,u_enrollday,status,manage,petcount,friend,f_id)
+		values
+		(#{id},#{pw},#{n_id},#{tel},#{sido},#{gu},#{doro},#{d_juso},#{postno},#{email},#{u_sex},#{u_birthday},#{u_name},#{u_enrollday},#{status},#{manage},#{petcount},#{friend},#{f_id}) -->
+		insert into member
+		(id, pw, u_name, n_id, u_birthday, u_sex, doro, d_juso, postno, email, tel, petcount)
+		values
+		(#{id}, #{pw}, #{u_name}, #{n_id}, #{u_birthday}, #{u_sex},
+		 #{doro}, #{d_juso}, #{postno}, #{email}, #{tel}, #{petcount})
+	</insert>
+
+	<delete id="memberDelete">
+		delete from member where id = #{id}
+	</delete>
+
+	<update id="memberUpdate">
+	update member set 
+	pw = #{pw}, n_id = #{n_id}, tel = #{tel}, 
+	sido = #{sido}, gu= #{gu} , doro=#{doro}, 
+	d_juso = #{d_juso}, postno = #{postno}, 
+	email=#{email}, u_sex = #{u_sex}, u_birthday=#{u_birthday}, 
+	u_name=#{u_name}, u_enrollday = #{u_enrollday}, 
+	status=#{status}, manage= #{manage}, petcount=#{petcount}, 
+	friend=#{friend}, f_id=#{f_id} 
+	where id = #{id}
+	</update>
+
+	<select id="memberLog" resultType="com.member.vo.MemberVo">
+		select id,pw from member where id = #{id} and pw=#{pw}
+	</select>
+	
+	<select id="memberPwcheck" resultType="com.member.vo.MemberVo">
+		select pw from member where id = #{id} and email = #{email}
+	</select>
+	
+	<select id="memberIdcheck" resultType="com.member.vo.MemberVo">
+		select id from member where u_name = #{u_name} and email = #{email}
+	</select>
+	<insert id="">
+	
+	</insert>
+
+</mapper>
