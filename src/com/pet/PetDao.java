@@ -2,11 +2,11 @@ package com.pet;
 
 import java.util.List;
 
-public class PetDao {
 
-	public List<PetVo> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+public interface PetDao {
+	public List<PetVo> getPetAll();
+	public int getPetInsert(PetVo petVo);
+	public int getPetDelete(String p_name);
+	public int getPetUpdate(PetVo petVo);
 
 }
