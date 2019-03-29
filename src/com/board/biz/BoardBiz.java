@@ -1,6 +1,7 @@
 package com.board.biz;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.board.dao.BoardDaoImpl;
 import com.board.vo.BoardVo;
 import com.member.vo.MemberVo;
+
 @Service
 public class BoardBiz {
 
@@ -32,5 +34,9 @@ public class BoardBiz {
 
 	public List<BoardVo> getFind(String n_id) {
 		return boardDaoImpl.getFind(n_id);
+	}
+	
+	public BoardVo readContent(String no) {
+		return boardDaoImpl.readContent(no);
 	}
 }
