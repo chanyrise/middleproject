@@ -11,7 +11,16 @@ public class BoardVo {
 	private String subtitle;
 	private String n_id;
 	private String contentType;
-	
+	private String contents;
+
+	public String getN_id() {
+		return n_id;
+	}
+
+	public void setN_id(String n_id) {
+		this.n_id = n_id;
+	}
+
 	public BoardVo() {
 		super();
 	}
@@ -56,14 +65,6 @@ public class BoardVo {
 		this.subtitle = subtitle;
 	}
 
-	public String getn_Id() {
-		return n_id;
-	}
-
-	public void setn_Id(String n_id) {
-		this.n_id = n_id;
-	}
-
 	public String getContentType() {
 		return contentType;
 	}
@@ -71,5 +72,13 @@ public class BoardVo {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
-	
+
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+
+	public String getContents() {
+		return contents;
+	}
+
 }
